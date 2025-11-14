@@ -39,7 +39,7 @@ jobs:
       # 第五步：上传编译好的文件作为 "Artifact"
       # "Artifact" 是指工作流产生的文件，可以供你下载
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           # 上传后显示的文件名
           name: bujuan-windows-build
