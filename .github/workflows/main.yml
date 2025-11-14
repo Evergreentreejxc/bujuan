@@ -18,15 +18,17 @@ jobs:
     # 定义任务的步骤
     steps:
       # 第一步：检出（下载）你的仓库代码到虚拟机
+      # 重点：增加了 submodules: 'recursive' 来确保子模块也被下载
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 # 同时将 checkout 更新到 v4
+        with:
+          submodules: 'recursive' # <<< THIS IS THE FIX
 
       # 第二步：设置 Flutter 环境
-      # 使用一个社区维护的 action 来快速安装 Flutter
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable' # 使用稳定版的 Flutter
+          channel: 'stable'
 
       # 第三步：获取项目依赖
       - name: Get dependencies
@@ -37,11 +39,8 @@ jobs:
         run: flutter build windows
 
       # 第五步：上传编译好的文件作为 "Artifact"
-      # "Artifact" 是指工作流产生的文件，可以供你下载
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          # 上传后显示的文件名
           name: bujuan-windows-build
-          # 要上传的文件所在的路径
           path: build/windows/runner/Release
